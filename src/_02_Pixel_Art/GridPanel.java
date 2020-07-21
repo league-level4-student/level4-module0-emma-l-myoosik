@@ -44,6 +44,7 @@ public class GridPanel extends JPanel{
 			int y = 0;
 			for (int col = 0; col < cols; col ++) {
 				pixels[row][col] = new Pixel(x, y);
+				pixels[row][col].color = Color.GRAY;
 				y += pixelHeight;
 			}
 			x += pixelWidth;

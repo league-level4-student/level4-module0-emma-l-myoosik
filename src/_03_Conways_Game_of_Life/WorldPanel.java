@@ -37,19 +37,21 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 		//3. Iterate through the array and initialize each cell.
 		//   Don't forget to consider the cell's dimensions when 
 		//   passing in the location.
-		int x = 0;
+		int y = 0;
 		for (int row = 0; row < cells.length; row++) {
-			int y = 0;
+			int x = 0;
 			for (int col = 0; col < cells[0].length; col++) {
 				cells[row][col] = new Cell(x, y, cellSize);
+				x += cellSize;
 			}
+			y += cellSize;
 		}
 		
 	}
 	
 	public void randomizeCells() {
 		//4. Iterate through each cell and randomly set each
-		//   cell's isAlive memeber to true of false
+		//   cell's isAlive member to true of false
 		Random rand = new Random();
 		for (int row = 0; row < cells.length; row++) {
 			for (int col = 0; col < cells[0].length; col++) {
@@ -103,8 +105,7 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 		
 		for (int row = 0; row < cells.length; row++) {
 			for (int col = 0; col < cells[0].length; col++) {
-				Cell cell = cells[row][col];
-				livingNeighbors[row][col] = getLivingNeighbors(cell.getX(), cell.getY());
+				livingNeighbors[row][col] = getLivingNeighbors(row, col);
 			}
 		}
 		
@@ -122,16 +123,37 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 	//   It returns an int of 8 or less based on how many
 	//   living neighbors there are of the 
 	//   cell identified by x and y
-	public int getLivingNeighbors(int x, int y){
+	public int getLivingNeighbors(int numRow, int numCol){
 		int livingNeighbors = 0;
-		for (int xValue = x - 1; xValue <= x + 1; xValue++) {
-			for (int yValue = y - 1; yValue <= y + 1; yValue++) {
-				if (cells[xValue][yValue].isAlive) {
-					livingNeighbors++;
-				}
-			}
+		if (numRow > 0 && numCol > 0) {
+			if (cells[numRow - 1][numCol - 1].isAlive) livingNeighbors++;
+		} 
+		if (numCol > 0) {
+			if (cells[numRow][numCol - 1].isAlive) livingNeighbors++;
+		} 
+		if (numRow < cells.length - 1 && numCol > 0) {
+			if (cells[numRow + 1][numCol - 1].isAlive) livingNeighbors++;
+		} 
+		if (numRow > 0) {
+			if (cells[numRow - 1][numCol].isAlive) livingNeighbors++;
+		} 
+		if (numRow < cells.length - 1 ) {
+			if (cells[numRow + 1][numCol].isAlive) livingNeighbors++;
+		} 
+		if (numRow > 0 && numCol < cells[0].length - 1) {
+			if (cells[numRow - 1][numCol + 1].isAlive) livingNeighbors++;
+		} 
+		if (numCol < cells[0].length - 1) {
+			if (cells[numRow][numCol + 1].isAlive) livingNeighbors++;
+		} 
+		if (numRow < cells.length - 1 && numCol < cells[0].length - 1) {
+			if (cells[numRow + 1][numCol + 1].isAlive) livingNeighbors++;
 		}
+		
+		
+		System.out.println(livingNeighbors);
 		return livingNeighbors;
+
 	}
 
 	@Override
