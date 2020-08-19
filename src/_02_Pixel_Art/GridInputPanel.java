@@ -25,6 +25,7 @@ public class GridInputPanel extends JPanel{
 		colsField = new JTextField(5);
 		submitButton = new JButton("Submit");
 		
+		
 		add(new JLabel("screen width:"));
 		add(windowWidthField);
 		add(new JLabel("\tscreen height:"));
@@ -50,7 +51,11 @@ public class GridInputPanel extends JPanel{
 			r = Integer.parseInt(rowsField.getText());
 			c = Integer.parseInt(colsField.getText());
 			
-			if(w <= 0 || h <= 0 || r <= 0 || c <= 0) {
+			if (PixelArtMaker.clickedLoading) {
+				System.out.print("true");
+				valid = true;
+			}
+			else if (w <= 0 || h <= 0 || r <= 0 || c <= 0) {
 				invalidateInput();
 			}else {
 				valid = true;
